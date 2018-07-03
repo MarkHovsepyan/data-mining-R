@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "Titanic <- read.csv(\"titanic_imputed.csv\")\n\nTitanic$survived <- factor(Titanic$survived, levels = c(1, 0), labels = c(\"Yes\", \"No\"))\n\n## first model\n\nmodel <- glm(survived~sex, data = Titanic, family = \"binomial\")\n\nsummary(model)\n\nexp(model$coefficients)\n\ntable(Titanic$survived, Titanic$sex)\n\n## calculating probabilities\n161/(682 + 161) # males survived\n682/(682 + 161) # males not survived\n\n339/(127 + 339) # females survived\n127/(127 + 339) # females not survived\n\n161/682 # odds for males to survive\n339/127 # odds for females to survive\n\n## creating test and train using caret\nlibrary(caret)\n\nset.seed(1333)\n\ntrainindex <- createDataPartition(Titanic$survived, p= .75, list = FALSE) # survived is dependent variable\n\nTrain <- Titanic[trainindex,]\nTest <- Titanic[-trainindex,]\n\nmodel_s <- glm(survived~sex+pclass+age+sibsp, data = Train, family = \"binomial\")\n\nsummary(model_s)\n\npredTest <- predict(model_s, newdata = Test, type = \"response\")\n\nsummary(predTest)\npredTest\n\ntable(predTest > 0.5, Test$survived)\n\n(168 + 89) / (168 + 44 + 26 + 89) # accuracy is 0.7859327\n89 / (89 + 44) # sensitivity\n44 / (44 + 168) # wrong\n\npr_label <- ifelse(predTest > 0.5, \"Yes\", \"No\")\npr_label\n\n??confusionMatrix\n\nconfusionMatrix(pr_label, Test$survived, positive = \"Yes\")\n\n## create ROC curve\n## create prediction\n\nlibrary(ROCR)\n\np_test <- prediction(predTest, Test$survived)\n\nperf <- performance(p_test, \"tpr\", \"fpr\")\nplot(perf)\n\n\n\n",
+    "created" : 1476261516497.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1753485498",
+    "id" : "287160FB",
+    "lastKnownWriteTime" : 1476436810,
+    "last_content_update" : 1476436810130,
+    "path" : "D:/Programming/R/R_Learn_Project/Logistic_Regression.R",
+    "project_path" : "Logistic_Regression.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

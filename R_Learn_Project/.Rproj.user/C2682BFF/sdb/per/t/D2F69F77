@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(ggplot2)\nlibrary(MASS)\nlibrary(klaR)\nlibrary(caret)\n\n\ndata(iris)\n\niris1 <- iris[iris$Species != 'virginica', ]\ntable(iris1$Species)\niris1$Species <- factor(iris1$Species)\n\nqplot(Sepal.Width, Sepal.Length, data = iris1, colour = Species,\n      main = \"Scatterplot of Sepal Length and Sepal Width\")+\n  geom_abline(intercept = 2.8, slope = 0.8, size = 3)\n\n\niris2 <- iris[iris$Species != 'versicolor', ]\niris2$Species <- factor(iris2$Species)\n\nqplot(Sepal.Width, Sepal.Length, data = iris2, colour = Species,\n      main = \"Scatterplot of Sepal Length and Sepal Width\")+\n  geom_abline(intercept = 2.8, slope = 0.8, size = 3)\n\nmodel <- lda(Species~., data = iris)\nmodel\n\nX <- predict(model)\ntable (iris$Species, X$class)\n\nqplot(X$x[,1], X$x[,2], colour = iris$Species)\n\nldahist(X$x[,1], iris$Species)\nldahist(X$x[,2], iris$Species)\n\npartimat(Species~., data = iris, method = 'lda')\n\n\n## Wine prediction\nwine <- read.csv(\"wine.csv\")\nwine$Type <- factor(wine$Type)\nset.seed(1973)\nindex <- createDataPartition(wine$Type, p = 0.7, list = FALSE)\ntrain <- wine[index,]\ntest <- wine[-index,]\n\nmodel <- lda(Type~., data = train)\nmodel\n\npred <- predict(model, newdata = test)\ntable(wine$Type, pred$class)\n\n\nLD1 <- \n\nqplot(pred$x[,1], pred$x[,2], colour = test$Type) + \n  geom_abline(slope = 0.6589, size = 1) +\n  geom_abline(slope = 0.3411, size = 1)\n\nldahist(LD1)\n\n\n",
+    "created" : 1478507688882.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2203141225",
+    "id" : "D2F69F77",
+    "lastKnownWriteTime" : 1478855778,
+    "last_content_update" : -2147483648,
+    "path" : "F:/R_Learn_Project/LDA.R",
+    "project_path" : "LDA.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

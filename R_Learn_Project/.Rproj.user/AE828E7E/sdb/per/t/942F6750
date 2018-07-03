@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "Train <- read.csv(\"cancer_train.csv\")\nTest <- read.csv(\"cancer_test.csv\")\n\nlibrary(e1071)\nlibrary(caret)\nlibrary(caTools)\nlibrary(ROCR)\n\nmodel <- naiveBayes(Class~., data = Train)\npred <- predict(model, newdata = Test, type = \"raw\")\n",
+    "created" : 1478248994979.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1838520423",
+    "id" : "942F6750",
+    "lastKnownWriteTime" : 1478249350,
+    "last_content_update" : -2147483648,
+    "path" : "F:/R_Learn_Project/Bayes_prediction_2.R",
+    "project_path" : "Bayes_prediction_2.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

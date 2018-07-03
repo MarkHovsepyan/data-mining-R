@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "library(neuralnet)\n\ndata(infert)\nnames(infert)\n\nfm <- formula(case ~ age + parity + induced + spontaneous)\n\nset.seed(2016)\nmodel_nn <- neuralnet(fm, data = infert,\n                      hidden = c(2, 2), linear.output = FALSE, \n                      err.fct = \"ce\", rep = 4)\nsummary(model_nn)\nplot(model_nn)\nmodel_nn$result.matrix # weights\n\n",
+    "created" : 1480322046709.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2751501934",
+    "id" : "4D33BE2",
+    "lastKnownWriteTime" : 1480324764,
+    "last_content_update" : -2147483648,
+    "path" : "F:/R_Learn_Project/Neural Networks.R",
+    "project_path" : "Neural Networks.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

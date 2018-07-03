@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "blood <- read.table(\"blood pressure.txt\", header = TRUE)\nView(blood)\nstr(blood)\n\nblood$Index <- NULL\nblood$One <- NULL\n\nlibrary(ggplot2)\n\nqplot(blood$Age, blood$Pressure)\n\nmodel <- lm(Pressure~Age, data = blood)\nsummary(m_blood)\n\n#calculating accordind to lm results (age = 18)\n98.7147 + 0.9709*18\n\n\nqplot(blood$Age, blood$Pressure) + geom_abline(intercept = 98.7, slope = 0.9709)\n\nwhich.max(blood$Pressure)\n\nblood1 <- blood[-which.max(blood$Pressure),]\n\nmodel1 <- lm(Pressure~Age, data = blood1)\nsummary(model1)\n\nqplot(blood1$Age, blood1$Pressure) + geom_abline(intercept = 97.0771, slope = 0.9493) + geom_abline(intercept = 98.7, slope = 0.9709)\n\nsummary(model1)\nnames(model1)\n\nmodel1$residuals\n\nhist(model1$residuals)\nqplot(model1$residuals, geom = \"histogram\")\nqplot(model1$residuals, geom = \"histogram\")\n\n#Abalone problem\n\nabalone_csv <- read.csv(\"Abalone.csv\")\nView(abalone_csv)\n\nboxplot(rings~sex, data = abalone_csv)\n\nabalone_csv$sex <- as.character(abalone_csv$sex)\nabalone_csv$sex[abalone_csv$sex != 'I'] <- 'NI' #NI means non-infant\nabalone_csv$sex <- as.factor(abalone_csv$sex)\n\ntable(abalone_csv$sex)\nboxplot(rings~sex, data = abalone_csv)\n\ncor(abalone_csv[,-c(1)])\n\n\nmodel1 <- lm(rings~.,data = abalone_csv)\nsummary(model1)\n\nmodel2 <- lm(rings~. -length, data = abalone_csv)\nsummary(model2)\n",
+    "created" : 1476481604105.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "379355069",
+    "id" : "75979B71",
+    "lastKnownWriteTime" : 1475051326,
+    "last_content_update" : 1475051326,
+    "path" : "D:/Programming/R/R_Learn_Project/Linear_Relationships.R",
+    "project_path" : "Linear_Relationships.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

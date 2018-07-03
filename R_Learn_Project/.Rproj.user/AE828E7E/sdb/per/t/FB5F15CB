@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "library(rpart)\nlibrary(rpart.plot)\nlibrary(rattle)\nlibrary(caret)\nlibrary(ROCR)\n\n###Titanic Example###\nTitanic<-read.csv(\"Titanic_imputed.csv\", nrows=1310)\n\nTitanic$pclass<-factor(Titanic$pclass, levels=c(1,2,3), labels=c(\"1st\", \"2nd\", \"3rd\"))\nTitanic$survived<-factor(Titanic$survived, levels=c(0,1), labels=c(\"No\", \"Yes\"))\n\n\n###Create training and testing datasets\n\nset.seed(2015)\ntrainIndex <- createDataPartition(Titanic$survived, p = .75, list = FALSE)                \nTrain<-Titanic[trainIndex,]\nTest<-Titanic[-trainIndex,]\n\n###contingency table and conditional probabilities\n\n#The decision tree with only gender as an independent variable\nfit<-rpart(survived~sex, data=Titanic, method=\"class\")\nprp(fit, \n    type=1, #type of the plot\n    extra=4, #display extra information \n    faclen=5,# lenght of the factor variable to be shown \n    main=\"Decision tree for titanic\") \n\n# from rattle\nfancyRpartPlot(fit)\n\n###Lets have a look at the contingency table\nprop.table(table(Titanic$sex,Titanic$survived),1)\n\n##Lets try with the pclass\nfit<-rpart(survived~pclass, data=Titanic, method=\"class\")\nprp(fit, type=1, extra=4, faclen=5, main=\"Decision tree for titanic\") \nprop.table(table(Titanic$pclass,Titanic$survived),1)\n\n\n\nfit<-rpart(survived~sex+age+sibsp+parch+pclass, \n           data=Train, method=\"class\", minsplit=25)\nprp(fit, type=1, extra=1, faclen=0, tweak=0.5) #lenght of factor level names\n                                                #tweak text size\nfancyRpartPlot(fit, tweak=1.1)\n\nasRules(fit) #rattle\n\n###Predict the class\npred_class<-predict(fit, Test, type=\"class\")\n###Confusion Matrix, Lets assume that \"Yes\" is our positive instance\ntable(Actual=Test$survived, Predicted=pred_class)\n\n\n######Do it yourself#####\nweather<-read.csv(\"weather.csv\")\nsummary(weather)\n\n\n###testing and training datasets\nset.seed(1982)\n\ntrainIndex <- createDataPartition(weather$RainToday, p = .75, list = FALSE)                \nTrain<-weather[trainIndex,]\nTest<-weather[-trainIndex,]\n\nfit<-rpart(RainTomorrow~.-Rainfall, data=Train, method=\"class\")\nprp(fit, type=1, extra=4)\nasRules(fit) #rattle\n#printcp(fit) \nfancyRpartPlot(fit, tweak=1.2)\n\n##Making predictions##\npred_class<-predict(fit, Test, type=\"class\")\n###Confusion Matrix, Lets assume that \"Yes\" is our positive instance\ntable(Actual=Test$RainToday, Predicted=pred_class)\n### Create confusion matrix\nconfusionMatrix(pred_class, Test$RainToday, positive = \"Yes\")\n# ROC curve\npred_prob <- predict(fit, Test, type=\"prob\")\n\npred <- prediction(pred_prob[,2], Test$RainTomorrow) \nperf <- performance(pred,\"tpr\",\"fpr\")\n\nperformance(pred, \"auc\")@y.values\n\nplot(perf)\n\n# tunning the rpart tree\n\nset.seed(2015)\nfit<-rpart(RainTomorrow~.-Rainfall, data=Train, \n            method=\"class\", \n            # minsplit=25, # minimum number of cases to be in the node\n            # minbucket=15 # the minimum number of observations in any terminal <leaf> node\n            cp=0.01)\nprp(fit)\nfit\nfancyRpartPlot(fit)\n\n",
+    "created" : 1477903230217.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2207209880",
+    "id" : "FB5F15CB",
+    "lastKnownWriteTime" : 1477905048,
+    "last_content_update" : -2147483648,
+    "path" : "F:/R_Learn_Project/dTree class example.R",
+    "project_path" : "dTree class example.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
