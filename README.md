@@ -1,2 +1,2 @@
 Every directory contains an RStudio project and can be easily opened and executed in Rstudio environment using .Rproj files.
-All the imported files (mostly datasets) are included in the corresponding directories.
+All imported files (mostly datasets) are included in the corresponding directories.
